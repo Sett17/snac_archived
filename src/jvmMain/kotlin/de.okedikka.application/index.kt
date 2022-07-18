@@ -62,7 +62,6 @@ fun HTML.index() {
         div {
           textInput {
             placeholder = "Title"
-            disabled = true
             tabIndex = "1"
           }
           button {
@@ -73,14 +72,18 @@ fun HTML.index() {
 //            disabled = true
           }
         }
-
+        div {
+          textInput {
+            placeholder = "Description"
+            tabIndex = "2"
+          }
+        }
         div {
           id = "tags-info"
           div {
             textInput {
               placeholder = "Tags seperated by <return>"
-              disabled = true
-              tabIndex = "2"
+              tabIndex = "3"
             }
           }
           div {
@@ -98,7 +101,7 @@ fun HTML.index() {
             code {
               contentEditable = true
               spellCheck = false
-              tabIndex = "3"
+              tabIndex = "4"
             }
           }
         }
