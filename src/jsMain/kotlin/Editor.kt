@@ -24,6 +24,10 @@ object Editor {
     get() {
       return document.querySelector("#editor-wrapper div:first-of-type input") as HTMLInputElement
     }
+  private val descInput: HTMLInputElement
+    get() {
+      return document.querySelector("#editor-wrapper > div:nth-child(2) input") as HTMLInputElement
+    }
   private val delBtn: HTMLButtonElement
     get() {
       return document.querySelector("#editor-wrapper div:first-of-type button:first-of-type") as HTMLButtonElement
@@ -72,6 +76,10 @@ object Editor {
       }
       checkChange()
     }
+    descInput.onkeypress = {
+      currentSnippet?.description = descInput.value
+      checkChange()
+    }
     saveBtn.onclick = {
       save()
     }
@@ -116,7 +124,7 @@ object Editor {
   fun new() {
     openSnippet(
       Snippet(
-        id = "_____", title = "", content = "", tags = listOf(), timestamp = Instant.fromEpochMilliseconds(0)
+        id = "_____", title = "", description = "", content = "", tags = listOf(), timestamp = Instant.fromEpochMilliseconds(0)
       )
     )
   }
@@ -131,9 +139,10 @@ object Editor {
     }
   }
 
-  fun updateSnippet() {
+  private fun updateSnippet() {
     currentSnippet?.content = stringPerElement(document.querySelector("#code pre")!!)
     currentSnippet?.title = titleInput.value
+    currentSnippet?.description = descInput.value
   }
 
   private fun stringPerElement(Element: Element): String {
@@ -183,6 +192,7 @@ object Editor {
     currentSnippet = snippet.copy()
     originalSnippet = snippet.copy()
     titleInput.value = snippet.title
+    descInput.value = snippet.description
     titleInput.disabled = false
     delBtn.disabled = false
     (tagsWrapper.querySelector("input") as HTMLInputElement).disabled = false

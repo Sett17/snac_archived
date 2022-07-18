@@ -13,6 +13,7 @@ import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import kotlinx.serialization.json.Json
 import org.slf4j.event.Level
@@ -39,7 +40,7 @@ fun Application.installPlugins() {
     deflate()
   }
   install(CallLogging) {
-    level = Level.TRACE
+    level = Level.INFO
   }
   install(CachingHeaders) {
     options { _, outgoingContent ->

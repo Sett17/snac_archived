@@ -221,6 +221,13 @@
 #editor-wrapper div:first-of-type input {
   flex-grow: 1;
 }
+#editor-wrapper > div:nth-child(2) {
+  padding-right: 8px;
+  width: 100%;
+}
+#editor-wrapper > div:nth-child(2) input {
+  width: 100%;
+}
 #editor-wrapper #code {
   flex-grow: 1;
   margin: 10px;
