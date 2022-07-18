@@ -1,0 +1,6 @@
+/.gradle/
+/build/
+/kotlin-js-store/
+/.idea/
+/config.yaml
+Devfile

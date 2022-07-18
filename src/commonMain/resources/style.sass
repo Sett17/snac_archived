@@ -1,0 +1,288 @@
+$backgroundDark: #1a2023
+$backgroundLight: #232A2F
+$backgroundMid: #1f2529
+$text: #BFCCD6
+$textGray: #939DA5
+$red: #FF6A80
+$green: #5BEC95
+$purple: #D7BEFA
+
+@font-face
+  font-family: "FiraCode"
+  src: url("/FiraCode.ttf")
+
+*
+  padding: 0
+  margin: 0
+  box-sizing: border-box
+  color: $text
+  font-family: "FiraCode", sans-serif
+  transition: color 150ms, background-color 150ms
+  overflow: hidden
+
+  ::selection
+    background: $purple
+    color: $backgroundMid
+
+#root
+  background: $backgroundDark
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  height: 100vh
+  width: 100vw
+
+#sidebar
+  background: $backgroundDark
+  height: 100%
+  flex-basis: 340px
+  display: flex
+  flex-direction: column
+  padding: 0 15px
+
+  #logo
+    svg
+      max-width: 200px
+
+      text
+        font-family: monospace
+
+  #tags
+    input[type="radio"]
+      display: none
+
+      &:checked + .tag ul
+        display: block
+
+    & > div
+      overflow-y: auto
+      height: 95%
+
+    & > label > span
+      display: flex
+      align-items: center
+      cursor: pointer
+
+      button
+        border: none
+        background: $text
+        color: $backgroundDark
+        height: 25px
+        margin: 4px 4px 4px 7px
+        border-radius: 8px
+        padding: 0 11px 0 9px
+        display: flex
+        align-items: center
+
+        &:hover
+          cursor: pointer
+          background: $purple
+
+    .tag
+      & > label > span
+        display: flex
+        justify-content: space-between
+        padding: 1px 5px
+
+        &:hover
+          cursor: pointer
+          background: $backgroundLight
+
+      ul
+        list-style: none
+        padding-left: 20px
+        display: none
+
+        li
+          padding: 0 5px
+          margin: 2px 0
+          display: flex
+          align-items: center
+
+          span
+            font-size: .57em
+            margin-right: 1ch
+            color: $textGray
+
+          &:first-of-type
+            margin-top: 6px
+
+          &:hover
+            cursor: pointer
+            background: $backgroundLight
+
+#editor-wrapper
+  background: $backgroundLight
+  height: 100%
+  flex: 1
+  display: flex
+  flex-direction: column
+
+  input, button, #tags-info div:first-of-type
+    border: none
+    background: $backgroundDark
+    color: $text
+    height: 35px
+    margin: 4px
+    border-radius: 8px
+    padding: 0 8px
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &:disabled
+      text-decoration: line-through
+      text-decoration-color: $purple
+
+    &:focus
+      outline: $purple
+      background: $backgroundMid
+
+  button
+    aspect-ratio: 1/1
+    font-size: 1.05em
+
+    &[highlight]
+      color: $backgroundDark
+      background: $red
+
+    &:disabled
+      &:after
+        content: '窱'
+        position: absolute
+        font-size: 4em
+        color: $red
+
+      &[highlight]
+        color: $text
+        background: $backgroundDark
+
+      &:hover
+        cursor: not-allowed
+        background: $backgroundDark
+
+    &:hover
+      cursor: pointer
+      color: $text
+      background: $backgroundMid
+
+  #tags-info
+    display: flex
+    align-items: center
+
+    div:first-of-type
+      flex-direction: row-reverse
+      flex-grow: 1
+      overflow-x: auto
+      overflow-y: hidden
+
+      span
+        background: $backgroundLight
+        border-radius: 8px
+        font-size: .7em
+        padding: .3em .4em
+        margin-right: 4px
+
+        &:hover
+          cursor: pointer
+          background: $red
+
+        &::after
+          content: ""
+          margin-left: 1ch
+
+      input
+        outline: none
+        border: none
+        background: transparent
+        flex-grow: 1
+        padding: 0
+        min-width: 225px
+
+        &:focus
+          outline: none
+
+    div:last-of-type
+      padding: 0 5px
+      display: flex
+
+      span
+        background: $backgroundDark
+        margin: 0 5px
+        border-radius: 8px
+        height: 35px
+        font-size: .9em
+        line-height: 35px
+        display: flex
+        justify-content: center
+
+        &:first-of-type
+          width: 7ch
+
+        &:last-of-type
+          width: 22ch
+
+  div:first-of-type
+    display: flex
+    flex-direction: row
+
+    input
+      flex-grow: 1.0
+
+  #code
+    flex-grow: 1.0
+    margin: 10px
+
+    pre
+      height: 100%
+      width: 100%
+
+      code
+        height: 100%
+        width: 100%
+        border-radius: 8px
+        outline: none
+
+        &:focus
+          outline: $purple
+
+#toast
+  position: absolute
+  bottom: 15vh
+  left: 50%
+  transform: translateX(-50%)
+  z-index: 1001
+  background: $purple
+  color: $backgroundMid
+  box-shadow: #d7befa8f 0 7px 12px 0
+  padding: 1ch 2ch
+  max-width: 90vw
+  border-radius: 5vh
+  text-align: center
+  box-sizing: content-box
+  opacity: 0.0
+  transition: opacity 150ms
+
+#login
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+  input
+    border: none
+    background: $backgroundLight
+    color: $text
+    height: 35px
+    margin: 4px
+    border-radius: 8px
+    padding: 0 8px
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &[type=submit]:hover
+      cursor: pointer
+      background: $purple
+      color: $backgroundMid
