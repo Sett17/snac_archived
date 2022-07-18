@@ -63,6 +63,7 @@ fun main(args: Array<String>) {
             }
             call.respond(this!!)
           }
+
         }
         delete("/api/snippet/{id}") {
           try {

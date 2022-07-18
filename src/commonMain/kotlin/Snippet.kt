@@ -5,12 +5,13 @@ import kotlinx.serialization.Serializable
 data class Snippet(
   val id: String,
   var title: String,
+  var description: String,
   var content: String,
   var tags: List<String>,
   var timestamp: Instant
 ) {
   override fun toString(): String {
-    return "Snippet(id='$id', title='$title', content='${content.substring(0..10)}...', tags=$tags, timestamp=$timestamp)"
+    return "Snippet(id='$id', title='$title', description= '$description', content='${content.substring(0..10)}...', tags=$tags, timestamp=$timestamp)"
   }
 }
 

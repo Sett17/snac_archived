@@ -89,15 +89,16 @@ object DB {
     conn.prepareStatement(
       """
       UPDATE snippets
-      SET title = ?, content = ?, tags = ?
+      SET title = ?, description = ?, content = ?, tags = ?
       WHERE id = ?
       RETURNING *
     """.trimIndent().also { logger.debug(it.replace("\n", " ")) }
     ).apply {
       setString(1, snippet.title)
-      setString(2, snippet.content)
-      setArray(3, conn.createArrayOf("text", snippet.tags.toTypedArray()))
-      setString(4, snippet.id)
+      setString(2, snippet.description)
+      setString(3, snippet.content)
+      setArray(4, conn.createArrayOf("text", snippet.tags.toTypedArray()))
+      setString(5, snippet.id)
     }.executeQuery().run {
       if (next()) {
         return Snippet.from(this)
@@ -109,14 +110,15 @@ object DB {
   fun newSnippet(snippet: Snippet): Snippet? {
     conn.prepareStatement(
       """
-      INSERT INTO snippets (title, content, tags)
-      VALUES (?, ?, ?)
+      INSERT INTO snippets (title, description, content, tags)
+      VALUES (?, ?, ?, ?)
       RETURNING *
     """.trimIndent().also { logger.debug(it.replace("\n", " ")) }
     ).apply {
       setString(1, snippet.title)
-      setString(2, snippet.content)
-      setArray(3, conn.createArrayOf("text", snippet.tags.toTypedArray()))
+      setString(2, snippet.description)
+      setString(3, snippet.content)
+      setArray(4, conn.createArrayOf("text", snippet.tags.toTypedArray()))
     }.executeQuery().run {
       if (next()) {
         return Snippet.from(this)
