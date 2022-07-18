@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public.snippets
     content text COLLATE pg_catalog."default",
     "timestamp" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     tags text[] COLLATE pg_catalog."default",
+    "desc" text COLLATE pg_catalog."default",
     CONSTRAINT snippets_pkey PRIMARY KEY (id)
 )
 
