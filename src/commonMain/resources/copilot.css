@@ -1,6 +1,7 @@
 pre code.hljs {
   display: block;
   overflow-x: auto;
+  overflow-y: auto;
   padding: 1em;
 }
 
