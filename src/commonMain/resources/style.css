@@ -230,6 +230,7 @@
 }
 #editor-wrapper #code {
   flex-grow: 1;
+  max-height: 84.4%;
   margin: 10px;
 }
 #editor-wrapper #code pre {
