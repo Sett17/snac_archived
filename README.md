@@ -1,8 +1,37 @@
-# snac [WIP]
+<div align="center">
 
-snac is *the* snippet manager you, or your small Team, needs. Ever google the same thing multiple times a week, and then see your colleague also searching for the same piece of code? **No more!**
+  <h1>Devfile</h1>
+
+  <p>
+    snac is *the* snippet manager you, or your small Team, needs. Ever google the same thing multiple times a week, and then see your colleague also searching for the same piece of code? **No more!**
 
 Now you can easily use snippets in any language (or in no language?!), with a simple table making use of Postgresql features, and a clean looking web frontend inspired by [Colors of GitHub Copilot](https://github.com/features/copilot).
+  </p>
+
+
+<!-- Badges -->
+<p>
+  <a href="https://github.com/Sett17/Devfile/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/Sett17/snac" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/Sett17/snac" alt="last update" />
+  </a>
+  <a href="https://github.com/Sett17/snac/network/members">
+    <img src="https://img.shields.io/github/forks/Sett17/snac" alt="forks" />
+  </a>
+  <a href="https://github.com/Sett17/snac/stargazers">
+    <img src="https://img.shields.io/github/stars/Sett17/snac" alt="stars" />
+  </a>
+  <a href="https://github.com/Sett17/snac/issues/">
+    <img src="https://img.shields.io/github/issues/Sett17/snac" alt="open issues" />
+  </a>
+</p>
+</div>
+
+<br />
+
+
 
 ## Installation
 
