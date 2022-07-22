@@ -37,8 +37,11 @@ fun main() {
   }
   Editor.highlight()
   Editor.new()
-  (document.querySelector("#tags span button") as HTMLButtonElement).onclick = {
+  (document.querySelector("#tags span button:nth-child(3)") as HTMLButtonElement).onclick = {
     Editor.new()
+  }
+  (document.querySelector("#tags span button:nth-child(2)") as HTMLButtonElement).onclick = {
+    updateSidebar()
   }
   document.onkeydown = {
     if (it.key == "s" && it.ctrlKey) {

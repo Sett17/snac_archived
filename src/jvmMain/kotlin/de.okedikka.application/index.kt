@@ -46,6 +46,7 @@ fun HTML.index() {
             htmlFor = "no-tag"
             span {
               h3 { +"Tags" }
+              button { +"勒" }
               button { +"" }
             }
           }
