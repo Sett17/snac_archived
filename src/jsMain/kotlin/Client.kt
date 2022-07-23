@@ -51,18 +51,22 @@ fun main() {
     }
     true
   }
-
+  if (js("navigator.connection.saveData") != true) {
+    window.setInterval({
+      updateSidebar(false)
+    }, 20000)
+  }
   window.onbeforeunload = {
     if (Editor.unsaved) "You have unsaved changes. Are you sure you want to leave?" else null
   }
-  updateSidebar()
+  updateSidebar(false)
 }
 
 // completely redo
 //   componentize each part
 //   update only needed parts
 //   fragment doms...
-fun updateSidebar() {
+fun updateSidebar(showToast : Boolean = true) {
   CoroutineScope(Dispatchers.Main).launch {
     val frag = document.createDocumentFragment()
     val openRadio = document.querySelector("#tags input:checked")?.id
@@ -103,7 +107,7 @@ fun updateSidebar() {
         }
         document.querySelectorAll(".tag, #tags input[type=radio]").asList().forEach { it.asDynamic().remove() }
         document.querySelector("#tags > div")!!.append(frag)
-        Toast("Tags updated")
+        if (showToast) Toast("Tags updated")
       }
     }
   }
