@@ -1,7 +1,6 @@
+
 import io.ktor.client.*
 import io.ktor.client.engine.js.*
-import io.ktor.client.plugins.auth.*
-import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.browser.document
@@ -23,19 +22,9 @@ val client = HttpClient(Js) {
       isLenient = true
     })
   }
-  install(Auth) {
-    bearer {
-      this.loadTokens {
-        BearerTokens(cookies["token"] ?: "", "")
-      }
-    }
-  }
 }
 
 fun main() {
-  if (cookies["token"].isNullOrEmpty()) {
-    window.location.href = "/login"
-  }
   Editor.highlight()
   Editor.new()
   (document.querySelector("#tags span button:nth-child(3)") as HTMLButtonElement).onclick = {
@@ -62,10 +51,6 @@ fun main() {
   updateSidebar(false)
 }
 
-// completely redo
-//   componentize each part
-//   update only needed parts
-//   fragment doms...
 fun updateSidebar(showToast : Boolean = true) {
   CoroutineScope(Dispatchers.Main).launch {
     val frag = document.createDocumentFragment()

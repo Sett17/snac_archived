@@ -21,8 +21,6 @@ import kotlin.io.path.absolutePathString
 
 lateinit var config: Config
 
-data class Password(val password: String)
-
 fun main(args: Array<String>) {
   val configPath = try {
     Path.of(args[0])
@@ -42,10 +40,11 @@ fun main(args: Array<String>) {
           .withClaim("password", password)
           .withExpiresAt(Date(System.currentTimeMillis() + 60000 * 60 * 24))
           .sign(Algorithm.HMAC256(config.snac.secret))
-        call.respond(hashMapOf("token" to token, "expires" to "${Date(System.currentTimeMillis() + 60000 * 60 * 24)}"))
+        call.response.header(HttpHeaders.SetCookie, "token=$token; path=/; Expires=${Date(System.currentTimeMillis() + 60000 * 60 * 24)}")
+        call.respondRedirect("/")
       }
 
-      authenticate("auth-jwt") {
+      authenticate("jwt-cookie") {
         get("/api/all") {
           call.respond(DB.all)
         }
@@ -89,11 +88,9 @@ fun main(args: Array<String>) {
         get("/api/tags") {
           call.respond(DB.tags)
         }
-      }
-
-
-      get("/") {
-        call.respondHtml(HttpStatusCode.OK, HTML::index)
+        get("/") {
+          call.respondHtml(HttpStatusCode.OK, HTML::index)
+        }
       }
 
       get("/login") {
