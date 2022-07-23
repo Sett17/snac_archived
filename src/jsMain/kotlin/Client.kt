@@ -14,6 +14,7 @@ import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
 import kotlinx.serialization.json.Json
 import org.w3c.dom.*
+import kotlin.collections.set
 
 
 val client = HttpClient(Js) {
@@ -63,10 +64,11 @@ fun main() {
 //   fragment doms...
 fun updateSidebar() {
   CoroutineScope(Dispatchers.Main).launch {
+    val frag = document.createDocumentFragment()
+    val openRadio = document.querySelector("#tags input:checked")?.id
     with(Backend.tags()) {
-      document.querySelectorAll(".tag, #tags input[type=radio]").asList().forEach { it.asDynamic().remove() }
       this.forEach {
-        document.querySelector("#tags > div")!!.append {
+        frag.append {
           input {
             type = InputType.radio
             name = "tag"
@@ -84,102 +86,50 @@ fun updateSidebar() {
                 }
               }
               onClickFunction = {
-                with(it.currentTarget.asDynamic().parentElement.unsafeCast<HTMLDivElement>()) {
-                  val th = this
-                  CoroutineScope(Dispatchers.Main).launch {
-                    th.querySelector("span span")?.textContent = "祉"
-                    Backend.snippets(attributes["data-tag"]?.nodeValue!!)
-                      .also { th.querySelector("ul")?.innerHTML = "" }.forEach {
-                        th.querySelector("ul")?.append {
-                          li {
-                            span {
-                              +it.id
-                            }
-                            +it.title
-                            attributes["data-id"] = it.id
-                            onClickFunction = {
-                              with(it.currentTarget.unsafeCast<HTMLLIElement>()) {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                  Editor.openSnippet(Backend.snipppet(attributes["data-id"]?.nodeValue!!))
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                  }
+                CoroutineScope(Dispatchers.Main).launch {
+                  unrollTag(it.currentTarget.asDynamic().parentElement.unsafeCast<HTMLDivElement>())
                 }
               }
             }
             ul {
+              this.style = "min-height: calc(${it.count} * (1em + .4em + 8px))"
             }
           }
         }
+      }
+      CoroutineScope(Dispatchers.Main).launch {
+        if (openRadio != null) {
+          unrollTag(frag.querySelector("#$openRadio + .tag") as HTMLDivElement)
+        }
+        document.querySelectorAll(".tag, #tags input[type=radio]").asList().forEach { it.asDynamic().remove() }
+        document.querySelector("#tags > div")!!.append(frag)
+        Toast("Tags updated")
       }
     }
   }
 }
 
-//fun updateSidebar() {
-//  val openTags =
-//    document.querySelectorAll(".tag.open").asList().map { (it as HTMLDivElement).attributes["data-tag"]!!.value }
-//  CoroutineScope(Dispatchers.Main).launch {
-//    with(Backend.tags()) {
-//      document.querySelectorAll("#tags > div > div").asList().forEach { it.asDynamic().remove() }
-//      this.forEach {
-//        (document.querySelector("#tags > div") as HTMLDivElement).append {
-//          div {
-//            classes = setOf("tag")
-//            attributes["data-tag"] = it.name
-//            span {
-//              +"${it.name} (${it.count})"
-//              span {
-//                +"祈"
-//              }
-//              onClickFunction = {
-//                with(it.currentTarget.asDynamic().parentElement.unsafeCast<HTMLDivElement>()) {
-//                  classList.toggle("open")
-//                  val th = this
-//                  if (classList.contains("open")) {
-//                    CoroutineScope(Dispatchers.Main).launch {
-//                      th.querySelector("span span")?.textContent = "祉"
-//                      Backend.snippets(attributes["data-tag"]?.nodeValue!!)
-//                        .also { th.querySelector("ul")?.innerHTML = "" }.forEach {
-//                          th.querySelector("ul")?.append {
-//                            li {
-//                              span {
-//                                +it.id
-//                              }
-//                              +it.title
-//                              attributes["data-id"] = it.id
-//                              onClickFunction = {
-//                                with(it.currentTarget.unsafeCast<HTMLLIElement>()) {
-//                                  CoroutineScope(Dispatchers.Main).launch {
-//                                    Editor.openSnippet(Backend.snipppet(attributes["data-id"]?.nodeValue!!))
-//                                  }
-//                                }
-//                              }
-//                            }
-//                          }
-//                        }
-//                    }
-//                  } else {
-//                    th.querySelector("span span")?.textContent = "祈"
-//                  }
-//                }
-//              }
-//            }
-//            ul {
-//
-//            }
-//          }
-//        }
-//      }
-//    }
-//    document.querySelectorAll(".tag").asList().forEach {
-//      if (openTags.contains((it as HTMLDivElement).attributes["data-tag"]!!.value)) {
-//        (it.querySelector("span:first-of-type") as HTMLSpanElement).click()
-//      }
-//    }
-//  }
-//}
+suspend fun unrollTag(el: HTMLDivElement) {
+  el.asDynamic().previousSibling.checked = true
+  el.querySelector("span span")?.textContent = "祉"
+  Backend.snippets(el.attributes["data-tag"]?.nodeValue!!)
+    .also { el.querySelector("ul")?.innerHTML = "" }.forEach {
+      el.querySelector("ul")?.append {
+        li {
+          span {
+            +it.id
+          }
+          +it.title
+          attributes["data-id"] = it.id
+          onClickFunction = {
+            with(it.currentTarget.unsafeCast<HTMLLIElement>()) {
+              CoroutineScope(Dispatchers.Main).launch {
+                Editor.openSnippet(Backend.snipppet(attributes["data-id"]?.nodeValue!!))
+              }
+            }
+          }
+        }
+      }
+
+    }
+}
