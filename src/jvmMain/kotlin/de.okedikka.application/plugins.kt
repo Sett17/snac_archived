@@ -1,20 +1,20 @@
 package de.okedikka.application
 
 import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.plugins.cachingheaders.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.request.*
 import io.ktor.server.response.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.slf4j.event.Level
 
@@ -52,21 +52,19 @@ fun Application.installPlugins() {
     }
   }
   install(Authentication) {
-    jwt("auth-jwt") {
-      verifier(
-        JWT
-          .require(Algorithm.HMAC256(config.snac.secret))
-          .build()
-      )
-      validate { credential ->
-        if (credential.payload.getClaim("password").asString() == config.snac.password) {
-          JWTPrincipal(credential.payload)
-        } else {
-          null
+    provider("jwt-cookie") {
+      this.authenticate {
+        val token = it.call.request.cookies["token"]
+        if (token.isNullOrEmpty()) {
+          return@authenticate it.challenge("jwt-cookie", AuthenticationFailedCause.NoCredentials) { _, call ->
+            call.respondRedirect("/login")
+          }
         }
-      }
-      challenge { _, _ ->
-        call.respond(HttpStatusCode.Unauthorized)
+        if (JWT.decode(token).getClaim("password").asString() != config.snac.password) {
+          return@authenticate it.challenge("jwt-cookie", AuthenticationFailedCause.InvalidCredentials) { _, call ->
+            call.respondRedirect("/login")
+          }
+        }
       }
     }
   }
