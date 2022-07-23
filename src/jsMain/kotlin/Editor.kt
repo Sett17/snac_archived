@@ -1,3 +1,4 @@
+
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -124,7 +125,12 @@ object Editor {
   fun new() {
     openSnippet(
       Snippet(
-        id = "_____", title = "", description = "", content = "", tags = listOf(), timestamp = Instant.fromEpochMilliseconds(0)
+        id = "_____",
+        title = "",
+        description = "",
+        content = "",
+        tags = listOf(),
+        timestamp = Instant.fromEpochMilliseconds(0)
       )
     )
   }
@@ -158,6 +164,10 @@ object Editor {
   }
 
   fun save() {
+    if (currentSnippet?.tags?.isEmpty() == true) {
+      Toast("At least one tag is required")
+      return
+    }
     CoroutineScope(Dispatchers.Main).launch {
       updateSnippet()
       val response: HttpResponse
@@ -183,6 +193,9 @@ object Editor {
           return@launch
         }
         Toast("Snippet updated")
+        if (currentSnippet?.tags != originalSnippet?.tags) {
+          updateSidebar()
+        }
         openSnippet(response.body())
       }
     }
