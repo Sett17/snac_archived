@@ -158,6 +158,10 @@ object Editor {
   }
 
   fun save() {
+    if (currentSnippet?.tags?.isEmpty() == true) {
+      Toast("At least one tag is required")
+      return
+    }
     CoroutineScope(Dispatchers.Main).launch {
       updateSnippet()
       val response: HttpResponse
