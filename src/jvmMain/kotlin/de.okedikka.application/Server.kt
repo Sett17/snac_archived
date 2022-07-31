@@ -35,13 +35,18 @@ fun main(args: Array<String>) {
       post("/login") {
         val form = call.receiveParameters()
         val password = form["password"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-        if (password != config.snac.password) return@post call.respond(HttpStatusCode.Unauthorized)
+        if (password != config.snac.password) {
+          application.log.debug("Received wrong password")
+          return@post call.respond(HttpStatusCode.Unauthorized)
+        }
         val token = JWT.create()
           .withClaim("password", password)
           .withExpiresAt(Date(System.currentTimeMillis() + 60000 * 60 * 24))
           .sign(Algorithm.HMAC256(config.snac.secret))
         call.response.header(HttpHeaders.SetCookie, "token=$token; path=/; Expires=${Date(System.currentTimeMillis() + 60000 * 60 * 24)}")
-        call.respondRedirect("/")
+        application.log.debug("Received correct password\tRedirecting")
+        call.response.status(HttpStatusCode.TemporaryRedirect)
+        call.respondRedirect("/?", false)
       }
 
       authenticate("jwt-cookie") {

@@ -53,9 +53,11 @@ kotlin {
         implementation("io.ktor:ktor-server-caching-headers:$ktor_version")
         implementation("io.ktor:ktor-server-auth:$ktor_version")
         implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
+        implementation("io.ktor:ktor-server-metrics:$ktor_version")
         implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
         implementation("org.postgresql:postgresql:42.4.0")
         implementation("ch.qos.logback:logback-classic:1.2.11")
+//        implementation("org.slf4j:slf4j-api:2.0.0-alpha7")
         implementation("com.sksamuel.hoplite:hoplite-core:2.3.1")
         implementation("com.sksamuel.hoplite:hoplite-yaml:2.3.1")
       }
