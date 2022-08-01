@@ -1,8 +1,6 @@
 
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import Backend.deleteSnippet
+import Backend.newSnippet
 import io.ktor.util.*
 import kotlinx.browser.document
 import kotlinx.browser.window
@@ -15,8 +13,6 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.span
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 import org.w3c.dom.*
 import org.w3c.dom.events.KeyboardEvent
 
@@ -86,13 +82,11 @@ object Editor {
     }
     delBtn.onclick = {
       CoroutineScope(Dispatchers.Main).launch {
-        val response = client.delete("/api/snippet/${currentSnippet?.id}")
-        Toast(response.bodyAsText())
-        if (response.status == HttpStatusCode.OK) {
+        if (deleteSnippet(currentSnippet!!.id)) {
           unsaved = false
           originalSnippet = currentSnippet
           checkChange()
-          updateSidebar()
+          updateSidebar(false)
           new()
         }
       }
@@ -170,33 +164,17 @@ object Editor {
     }
     CoroutineScope(Dispatchers.Main).launch {
       updateSnippet()
-      val response: HttpResponse
       if (currentSnippet!!.id == "_____") {
-        response = client.post("/api/new") {
-          contentType(ContentType.Application.Json)
-          setBody(Json.encodeToJsonElement(currentSnippet!!))
+        newSnippet(currentSnippet!!)?.let {
+          openSnippet(it)
         }
-        if (response.status != HttpStatusCode.OK) {
-          Toast(response.bodyAsText())
-          return@launch
-        }
-        Toast("Snippet created")
-        updateSidebar()
-        openSnippet(response.body())
       } else {
-        response = client.post("/api/snippet/${currentSnippet?.id}") {
-          contentType(ContentType.Application.Json)
-          setBody(Json.encodeToJsonElement(currentSnippet!!))
+        Backend.updateSnippet(currentSnippet!!)?.let {
+          if (currentSnippet?.tags != originalSnippet?.tags) {
+            updateSidebar()
+          }
+          openSnippet(it)
         }
-        if (response.status != HttpStatusCode.OK) {
-          Toast(response.bodyAsText())
-          return@launch
-        }
-        Toast("Snippet updated")
-        if (currentSnippet?.tags != originalSnippet?.tags) {
-          updateSidebar()
-        }
-        openSnippet(response.body())
       }
     }
   }
