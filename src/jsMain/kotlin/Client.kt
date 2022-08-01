@@ -113,7 +113,7 @@ suspend fun unrollTag(el: HTMLDivElement) {
           onClickFunction = {
             with(it.currentTarget.unsafeCast<HTMLLIElement>()) {
               CoroutineScope(Dispatchers.Main).launch {
-                Editor.openSnippet(Backend.snipppet(attributes["data-id"]?.nodeValue!!))
+                Editor.openSnippet(Backend.snippet(attributes["data-id"]?.nodeValue!!))
               }
             }
           }
