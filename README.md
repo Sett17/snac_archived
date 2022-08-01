@@ -32,6 +32,9 @@ Now you can easily use snippets in any language (or in no language?!), with a si
 <br />
 
 
+## Screenshot
+![](img.png)
+
 
 ## Installation
 
