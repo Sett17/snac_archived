@@ -11,6 +11,10 @@ $purple: #D7BEFA
   font-family: "FiraCode"
   src: url("/FiraCode.ttf")
 
+\:root
+  --green: #{ $green }
+  --red: #{ $red }
+
 *
   padding: 0
   margin: 0
@@ -40,6 +44,57 @@ $purple: #D7BEFA
   display: flex
   flex-direction: column
   padding: 0 15px
+
+  ul
+    list-style: none
+    padding-left: 20px
+    display: none
+
+    li
+      padding: 0 5px
+      margin: 2px 0
+      display: flex
+      align-items: center
+
+      span
+        font-size: .57em
+        margin-right: 1ch
+        color: $textGray
+
+      &:first-of-type
+        margin-top: 6px
+
+      &:hover
+        cursor: pointer
+        background: $backgroundLight
+
+  #search
+    & > div
+      display: flex
+      align-items: center
+      justify-content: flex-start
+
+      span
+        font-size: 1.6em
+        cursor: pointer
+
+      input
+        border: none
+        background: $backgroundLight
+        color: $text
+        height: 35px
+        margin: 4px
+        border-radius: 8px
+        padding: 0 8px
+        display: flex
+        align-items: center
+        justify-content: center
+
+    ul
+      display: block !important
+      max-height: calc(7.5 * (1em + 0.4em + 8px))
+      overflow-y: auto
+      padding-left: 0
 
   #logo
     svg
@@ -88,29 +143,6 @@ $purple: #D7BEFA
         &:hover
           cursor: pointer
           background: $backgroundLight
-
-      ul
-        list-style: none
-        padding-left: 20px
-        display: none
-
-        li
-          padding: 0 5px
-          margin: 2px 0
-          display: flex
-          align-items: center
-
-          span
-            font-size: .57em
-            margin-right: 1ch
-            color: $textGray
-
-          &:first-of-type
-            margin-top: 6px
-
-          &:hover
-            cursor: pointer
-            background: $backgroundLight
 
 #editor-wrapper
   background: $backgroundLight

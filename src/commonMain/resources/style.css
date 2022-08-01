@@ -3,6 +3,11 @@
   font-family: "FiraCode";
   src: url("/FiraCode.ttf");
 }
+:root {
+  --green: #5BEC95;
+  --red: #FF6A80;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -34,6 +39,56 @@
   display: flex;
   flex-direction: column;
   padding: 0 15px;
+}
+#sidebar ul {
+  list-style: none;
+  padding-left: 20px;
+  display: none;
+}
+#sidebar ul li {
+  padding: 0 5px;
+  margin: 2px 0;
+  display: flex;
+  align-items: center;
+}
+#sidebar ul li span {
+  font-size: 0.57em;
+  margin-right: 1ch;
+  color: #939DA5;
+}
+#sidebar ul li:first-of-type {
+  margin-top: 6px;
+}
+#sidebar ul li:hover {
+  cursor: pointer;
+  background: #232A2F;
+}
+#sidebar #search > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#sidebar #search > div span {
+  font-size: 1.6em;
+  cursor: pointer;
+}
+#sidebar #search > div input {
+  border: none;
+  background: #232A2F;
+  color: #BFCCD6;
+  height: 35px;
+  margin: 4px;
+  border-radius: 8px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#sidebar #search ul {
+  display: block !important;
+  max-height: calc(7.5 * (1.4em + 8px));
+  overflow-y: auto;
+  padding-left: 0;
 }
 #sidebar #logo svg {
   max-width: 200px;
@@ -77,29 +132,6 @@
   padding: 1px 5px;
 }
 #sidebar #tags .tag > label > span:hover {
-  cursor: pointer;
-  background: #232A2F;
-}
-#sidebar #tags .tag ul {
-  list-style: none;
-  padding-left: 20px;
-  display: none;
-}
-#sidebar #tags .tag ul li {
-  padding: 0 5px;
-  margin: 2px 0;
-  display: flex;
-  align-items: center;
-}
-#sidebar #tags .tag ul li span {
-  font-size: 0.57em;
-  margin-right: 1ch;
-  color: #939DA5;
-}
-#sidebar #tags .tag ul li:first-of-type {
-  margin-top: 6px;
-}
-#sidebar #tags .tag ul li:hover {
   cursor: pointer;
   background: #232A2F;
 }
