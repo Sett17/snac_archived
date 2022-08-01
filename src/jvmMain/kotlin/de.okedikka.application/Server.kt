@@ -93,6 +93,9 @@ fun main(args: Array<String>) {
         get("/api/tags") {
           call.respond(DB.tags)
         }
+        get("/api/search/{query}") {
+          call.respond(DB.search(call.parameters["query"]!!))
+        }
         get("/") {
           call.respondHtml(HttpStatusCode.OK, HTML::index)
         }

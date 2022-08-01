@@ -152,4 +152,27 @@ object DB {
       }.executeUpdate()
     }.also { logger.debug("Last query took ${it/1e3}s") }
   }
+
+  fun search(query: String): List<SnippetOverview> {
+    val res = mutableListOf<SnippetOverview>()
+    measureTimeMillis {
+      conn.prepareStatement(
+        """
+        SELECT id, title
+        FROM snippets
+        WHERE title ~* ? OR description ~* ? OR ? = any(tags)
+        ORDER BY title
+      """.trimIndent().also { logger.debug(it.replace("\n", " ")) }
+      ).apply {
+        setString(1, query)
+        setString(2, query)
+        setString(3, query.toUpperCasePreservingASCIIRules())
+      }.executeQuery().run {
+        while (next()) {
+          res.add(SnippetOverview(getString("id"), getString("title")))
+        }
+      }
+    }.also { logger.debug("Last query took ${it/1e3}s") }
+    return res
+  }
 }
