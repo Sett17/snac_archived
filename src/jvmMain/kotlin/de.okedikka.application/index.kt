@@ -39,6 +39,16 @@ fun HTML.index() {
         div {
           id = "search"
           h3 { +"Search" }
+          div {
+            input {
+              id = "tag-search-input"
+              placeholder = "Regex search"
+            }
+            span {
+              +"×"
+            }
+          }
+          ul {}
         }
         div {
           id = "tags"
@@ -113,14 +123,16 @@ fun HTML.index() {
     }
     script(src = "/snac.js") {}
     script {
-      unsafe{
-        raw("""
+      unsafe {
+        raw(
+          """
 if ('serviceWorker' in navigator) {
   // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js');
-  });l
-}""".trimIndent())
+  });
+}""".trimIndent()
+        )
       }
     }
   }

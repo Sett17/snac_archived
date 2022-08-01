@@ -53,4 +53,8 @@ object Backend {
       null
     }
   }
+
+  suspend fun search(query: String): Array<SnippetOverview> {
+    return Json.decodeFromString(client.get("/api/search/$query").bodyAsText())
+  }
 }

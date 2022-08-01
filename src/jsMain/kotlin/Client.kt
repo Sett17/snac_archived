@@ -1,4 +1,3 @@
-
 import io.ktor.client.*
 import io.ktor.client.engine.js.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -25,6 +24,7 @@ val client = HttpClient(Js) {
 }
 
 fun main() {
+  Search
   Editor.highlight()
   Editor.new()
   (document.querySelector("#tags span button:nth-child(3)") as HTMLButtonElement).onclick = {
@@ -40,18 +40,18 @@ fun main() {
     }
     true
   }
-  if (js("navigator.connection.saveData") != true) {
-    window.setInterval({
-      updateSidebar(false)
-    }, 20000)
-  }
+//  if (js("navigator.connection.saveData") != true) {
+//    window.setInterval({
+//      updateSidebar(false)
+//    }, 20000)
+//  }
   window.onbeforeunload = {
     if (Editor.unsaved) "You have unsaved changes. Are you sure you want to leave?" else null
   }
   updateSidebar(false)
 }
 
-fun updateSidebar(showToast : Boolean = true) {
+fun updateSidebar(showToast: Boolean = true) {
   CoroutineScope(Dispatchers.Main).launch {
     val frag = document.createDocumentFragment()
     val openRadio = document.querySelector("#tags input:checked")?.id
@@ -104,21 +104,24 @@ suspend fun unrollTag(el: HTMLDivElement) {
   Backend.snippets(el.attributes["data-tag"]?.nodeValue!!)
     .also { el.querySelector("ul")?.innerHTML = "" }.forEach {
       el.querySelector("ul")?.append {
-        li {
-          span {
-            +it.id
-          }
-          +it.title
-          attributes["data-id"] = it.id
-          onClickFunction = {
-            with(it.currentTarget.unsafeCast<HTMLLIElement>()) {
-              CoroutineScope(Dispatchers.Main).launch {
-                Editor.openSnippet(Backend.snippet(attributes["data-id"]?.nodeValue!!))
-              }
-            }
-          }
+        snippet(it)
+      }
+    }
+}
+
+fun TagConsumer<HTMLElement>.snippet(snippetOverview: SnippetOverview) {
+  li {
+    span {
+      +snippetOverview.id
+    }
+    +snippetOverview.title
+    attributes["data-id"] = snippetOverview.id
+    onClickFunction = {
+      with(it.currentTarget.unsafeCast<HTMLLIElement>()) {
+        CoroutineScope(Dispatchers.Main).launch {
+          Editor.openSnippet(Backend.snippet(attributes["data-id"]?.nodeValue!!))
         }
       }
-
     }
+  }
 }
