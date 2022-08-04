@@ -40,6 +40,11 @@ fun main() {
     }
     true
   }
+  window.onfocus = {
+    CoroutineScope(Dispatchers.Main).launch {
+      if (!Backend.isAuthenticated()) window.location.href = "/login"
+    }
+  }
 //  if (js("navigator.connection.saveData") != true) {
 //    window.setInterval({
 //      updateSidebar(false)

@@ -1,3 +1,4 @@
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -56,5 +57,9 @@ object Backend {
 
   suspend fun search(query: String): Array<SnippetOverview> {
     return Json.decodeFromString(client.get("/api/search/$query").bodyAsText())
+  }
+
+  suspend fun isAuthenticated(): Boolean {
+    return client.get("/authed").body()
   }
 }

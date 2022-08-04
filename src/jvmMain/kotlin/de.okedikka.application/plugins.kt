@@ -86,12 +86,7 @@ fun Application.installPlugins() {
     provider("jwt-cookie") {
       this.authenticate {
         val token = it.call.request.cookies["token"]
-        if (token.isNullOrEmpty()) {
-          return@authenticate it.challenge("jwt-cookie", AuthenticationFailedCause.NoCredentials) { _, call ->
-            call.respondRedirect("/login")
-          }
-        }
-        if (JWT.decode(token).getClaim("password").asString() != config.snac.password) {
+        if (token.isNullOrEmpty() || JWT.decode(token).getClaim("password").asString() != config.snac.password) {
           return@authenticate it.challenge("jwt-cookie", AuthenticationFailedCause.InvalidCredentials) { _, call ->
             call.respondRedirect("/login")
           }
