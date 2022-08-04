@@ -81,7 +81,7 @@ fun updateSidebar(showToast: Boolean = true) {
               }
             }
             ul {
-              this.style = "min-height: calc(${it.count} * (1em + .4em + 8px))"
+              this.style = "min-height: calc(${it.count} * (1em + 8px))"
             }
           }
         }
