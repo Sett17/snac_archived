@@ -48,6 +48,13 @@ fun main(args: Array<String>) {
         call.response.status(HttpStatusCode.TemporaryRedirect)
         call.respondRedirect("/?", false)
       }
+      get("/authed") {
+        val token = this.call.request.cookies["token"]
+        if (token.isNullOrEmpty() || JWT.decode(token).getClaim("password").asString() != config.snac.password) {
+          call.respond(false)
+        }
+        call.respond(true)
+      }
 
       authenticate("jwt-cookie") {
         get("/api/all") {
