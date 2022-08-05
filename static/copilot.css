@@ -1,0 +1,53 @@
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: 1em;
+}
+
+code.hljs {
+  padding: 3px 5px;
+}
+
+.hljs {
+  background: #1a2023;
+  color: #BFCCD6;
+}
+
+.hljs-comment, .hljs-quote {
+  color: #939DA5;
+}
+
+.hljs-deletion, .hljs-name, .hljs-regexp, .hljs-selector-class, .hljs-selector-id, .hljs-tag, .hljs-template-variable, .hljs-variable {
+  color: #D7BEFA;
+}
+
+.hljs-built_in, .hljs-link, .hljs-literal, .hljs-meta, .hljs-number, .hljs-params, .hljs-type {
+  color: #4AB0FF;
+}
+
+.hljs-attribute {
+  color: #FFEA6B;
+}
+
+.hljs-addition, .hljs-bullet, .hljs-string, .hljs-symbol {
+  color: #5BEC95;
+}
+
+.hljs-section, .hljs-title {
+  color: #FFEA6B;
+}
+
+.hljs-keyword, .hljs-selector-tag {
+  color: #D7BEFA;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+/*# sourceMappingURL=copilot.css.map */

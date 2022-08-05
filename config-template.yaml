@@ -1,0 +1,9 @@
+database:
+  url: "jdbc:postgresql://your.server:5432/database" // replace your.server:5432 with the correct address to access postgresql; replace database with the name of your database (preferably snac ;))
+  user: "user" // database username
+  password: "pass" // database password for user
+
+snac:
+  port: 8080 // port on which the service will be available
+  secret: "CHANGEME" // secret used in the JWT
+  password: "CHANGEME" // password to authenticate oneself in the frontend

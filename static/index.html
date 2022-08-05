@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>snac - Snippet Accumulator</title>
+  <link href="/assets/style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta http-equiv="content-Type" content="text/html; utf-8" />
+  <meta http-equiv="Pragma" content="cache" />
+  <meta name="robots" content="INDEX,FOLLOW" />
+  <meta http-equiv="content-Language" content="en" />
+  <meta name="description" content="snac is the snippet manager you, or your small Team, needs. Ever google the same thing multiple times a week, and then see your colleague also searching for the same piece of code? No more!" />
+  <meta name="keywords" content="productive, team, personal, snippet, management, knowledge, code, coding, programming" />
+  <meta name="author" content="Sett" />
+  <meta name="theme-color" content="#1a2023" />
+  <script src="/assets/snac.js" defer></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+<link href="/assets/copilot.css" rel="stylesheet">
+<div id="root">
+  <div id="sidebar">
+    <div id="logo">
+      <svg viewBox="0 0 70 50">
+        <text fill="#939DA5" font-family="monospace" font-size="20" text-anchor="middle" x="50%" y="25">snac</text>
+      </svg>
+    </div>
+    <div id="search">
+      <h3>Search</h3>
+      <div><input id="tag-search-input" placeholder="Regex search"><span>×</span></div>
+      <ul></ul>
+    </div>
+    <div id="tags">
+      <label for="no-tag">
+        <span>
+           <h3>Tags</h3>
+           <button>勒</button><button></button>
+        </span>
+      </label>
+      <input type="radio" name="tag" id="no-tag">
+      <div>
+      </div>
+    </div>
+  </div>
+  <div id="editor-wrapper">
+    <div><input type="text" placeholder="Title" tabIndex="1">
+      <button></button>
+      <button></button>
+    </div>
+    <div><input type="text" placeholder="Description" tabIndex="2"></div>
+    <div id="tags-info">
+      <div><input type="text" placeholder="Tags seperated by &lt;return&gt;" tabIndex="3"></div>
+      <div><span></span><span></span></div>
+    </div>
+    <div id="code">
+      <pre><code contenteditable="true" spellcheck="false" tabIndex="4"></code></pre>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<!--<script>if ('serviceWorker' in navigator) {-->
+<!--    // Use the window load event to keep the page load performant-->
+<!--    window.addEventListener('load', () => {-->
+<!--        navigator.serviceWorker.register('/assets/sw.js');-->
+<!--    });-->
+<!--}</script>-->
+<!--<script src="/assets/wasm_exec.js"></script>-->
+<!--<script>-->
+<!--    const go = new Go();-->
+<!--    WebAssembly.instantiateStreaming(fetch("/assets/main.wasm"), go.importObject).then((result) => {-->
+<!--        go.run(result.instance);-->
+<!--    });-->
+<!--</script>-->
+</body>
+</html>
