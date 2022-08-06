@@ -1,10 +1,10 @@
 package main
 
 import (
-	"GoSnac/Config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"snac/Config"
 )
 
 func login(c *gin.Context) {

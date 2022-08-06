@@ -1,4 +1,4 @@
-module GoSnac
+module snac
 
 go 1.19
 

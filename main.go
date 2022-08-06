@@ -1,10 +1,10 @@
 package main
 
 import (
-	"GoSnac/Config"
-	"GoSnac/Database"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"snac/Config"
+	"snac/Database"
 	"strconv"
 )
 

@@ -1,9 +1,9 @@
 package Database
 
 import (
-	"GoSnac/Config"
 	"database/sql"
 	"fmt"
+	"snac/Config"
 	"strings"
 )
 

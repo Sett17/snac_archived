@@ -1,9 +1,9 @@
 package main
 
 import (
-	"GoSnac/Database"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"snac/Database"
 )
 
 func Api(r *gin.Engine) {

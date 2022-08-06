@@ -40,17 +40,10 @@ Now you can easily use snippets in any language (or in no language?!), with a si
 
 ## Installation
 
-Download the distribution zip and change the `config.yaml` to your liking then start the program.
+Download the distribution zip and create a `config.yaml` from the the `config-template.yaml` to your liking and start the server.
 
 ```bash
-./bin/snac path/to/config
-or
-./bin/snac.bat path/to/config
-```
-
-e.g.
-```bash
-./bin/snac ./config.yaml
+./snac
 ```
 
 The sql code to create the table and the needed function dn trigger in the [sql/](sql/).
@@ -60,10 +53,13 @@ The `table.sql` file should be executed last.
 
 ## Building
 
-Simply run the `run` task with gradle with the path to the config file.
-
+Clone this repo
 ```bash
-./gradlew run --args="./path/to/config"
+git clone https://github.com/Sett17/snac.git
+```
+and run the go build command to build the binary.
+```bash
+go build .
 ```
 
 ## Config
