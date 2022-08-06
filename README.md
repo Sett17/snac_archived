@@ -1,3 +1,5 @@
+# This branch is not maintained as the project hast switched to Golang/VanillaJS
+
 <div align="center">
 
   <h1>Devfile</h1>
