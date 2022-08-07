@@ -11,6 +11,7 @@ import (
 func main() {
 	Config.LoadConfig()
 	Database.Connect()
+	defer Database.Close()
 
 	r := gin.Default()
 	r.Use(CacheHeaders())
