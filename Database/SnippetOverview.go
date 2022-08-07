@@ -1,13 +1,15 @@
 package Database
 
-import "database/sql"
+import (
+	"github.com/jackc/pgx/v4"
+)
 
 type SnippetOverview struct {
 	Id    string `json:"id"`
 	Title string `json:"title"`
 }
 
-func rowToSnippetOverview(row *sql.Rows) (snippetOverview SnippetOverview) {
+func rowToSnippetOverview(row pgx.Rows) (snippetOverview SnippetOverview) {
 	err := row.Scan(&snippetOverview.Id, &snippetOverview.Title)
 	if err != nil {
 		panic(err)
