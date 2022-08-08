@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>Devfile</h1>
+  <h1>Snac</h1>
 
   <p>
     snac is <i>the</i> snippet manager you, or your small Team, needs. Ever google the same thing multiple times a week, and then see your colleague also searching for the same piece of code? <b>No more!</b>
