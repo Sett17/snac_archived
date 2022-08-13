@@ -72,7 +72,7 @@ const Editor = {
     tagsWrapper: document.querySelector("#tags-info div:first-of-type"),
     idField: document.querySelector("#tags-info div:last-of-type span:first-of-type"),
     timestampField: document.querySelector("#tags-info div:last-of-type span:last-of-type"),
-    codeField: document.querySelector("#code pre code"),
+    codeField: document.querySelector("#codeField"),
     unsaved: false,
     originalSnippet: null,
     currentSnippet: null,
@@ -112,6 +112,9 @@ const Editor = {
         this.codeField.focusout = () => {
             this.highlight()
         }
+        this.codeField.onclick = (e) => {
+            console.log(getCurrentCursorPosition('codeField'))
+        }
         this.codeField.onkeydown = (e) => {
             if (e.key === 'Tab' && !e.shiftKey) {
                 document.execCommand('insertHTML', false, '  ')
@@ -120,16 +123,19 @@ const Editor = {
             if (e.key === 'Enter' && e.ctrlKey) {
                 this.highlight()
                 e.preventDefault()
-            } else if (e.key === 'Enter') {
-                document.execCommand('insertHTML', false, '\n')
-                e.preventDefault()
             }
-            if (this.highlightTimeout != null) {
-                window.clearTimeout(this.highlightTimeout)
+                // else if (e.key === 'Enter') {
+                //     document.execCommand('insertHTML', false, '\n')
+                //     e.preventDefault()
+            // }
+            else {
+                if (this.highlightTimeout != null) {
+                    window.clearTimeout(this.highlightTimeout)
+                }
+                this.highlightTimeout = window.setTimeout(() => {
+                    this.highlight()
+                }, 500)
             }
-            this.highlightTimeout = window.setTimeout(() => {
-                this.highlight()
-            }, 3000)
         }
     },
     new: function () {
@@ -143,8 +149,13 @@ const Editor = {
         })
     },
     highlight: function () {
+        console.time('highlight')
+        let curPos = getCurrentCursorPosition('codeField')
+        console.log(curPos)
         this.codeField.className = 'hljs'
         hljs.highlightAll()
+        setCurrentCursorPosition(curPos, 'codeField')
+        console.timeEnd('highlight')
         this.updateSnippet()
         this.checkChange()
     },
@@ -395,4 +406,82 @@ function createSnippetLi(snippetOverview) {
     li.appendChild(document.createElement('span')).textContent = snippetOverview.id
     li.append(snippetOverview.title)
     return li
+}
+
+function createRange(node, chars, range) {
+    if (!range) {
+        range = document.createRange()
+        range.selectNode(node)
+        range.setStart(node, 0)
+    }
+
+    if (chars.count === 0) {
+        range.setEnd(node, chars.count)
+    } else if (node && chars.count > 0) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            if (node.textContent.length < chars.count) {
+                chars.count -= node.textContent.length
+            } else {
+                range.setEnd(node, chars.count)
+                chars.count = 0
+            }
+        } else {
+            for (let lp = 0; lp < node.childNodes.length; lp++) {
+                range = createRange(node.childNodes[lp], chars, range)
+
+                if (chars.count === 0) {
+                    break
+                }
+            }
+        }
+    }
+    return range
+}
+
+function setCurrentCursorPosition(chars, element) {
+    if (chars >= 0) {
+        let selection = window.getSelection()
+        let range = createRange(element, {count: chars})
+        if (range) {
+            range.collapse(false)
+            selection.removeAllRanges()
+            selection.addRange(range)
+        }
+    }
+}
+
+function isChildOf(node, parentElement) {
+    while (node !== null) {
+        if (node === parentElement) {
+            return true
+        }
+        node = node.parentNode
+    }
+    return false
+}
+
+function getCurrentCursorPosition(parentElement) {
+    let selection = window.getSelection(), charCount = -1, node
+
+    if (selection.focusNode) {
+        if (isChildOf(selection.focusNode, parentElement)) {
+            node = selection.focusNode
+            charCount = selection.focusOffset
+            while (node) {
+                if (node === parentElement) {
+                    break
+                }
+                if (node.previousSibling) {
+                    node = node.previousSibling
+                    charCount += node.textContent.length
+                } else {
+                    node = node.parentNode
+                    if (node === null) {
+                        break
+                    }
+                }
+            }
+        }
+    }
+    return charCount
 }

@@ -278,6 +278,7 @@
   width: 100%;
   border-radius: 8px;
   outline: none;
+  display: inline-block;
 }
 #editor-wrapper #code pre code:focus {
   outline: #D7BEFA;
