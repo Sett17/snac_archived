@@ -10,7 +10,6 @@ import (
 )
 
 func Render(r *gin.Engine) {
-	r.LoadHTMLGlob("templates/*.gohtml")
 	render := r.Group("/render")
 	//render.Use(Auther())
 
