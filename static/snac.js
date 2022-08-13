@@ -118,6 +118,9 @@ const Editor = {
                 e.preventDefault()
             }
             if (e.key === 'Enter' && e.ctrlKey) {
+                this.highlight()
+                e.preventDefault()
+            } else if (e.key === 'Enter') {
                 document.execCommand('insertHTML', false, '\n')
                 e.preventDefault()
             }
