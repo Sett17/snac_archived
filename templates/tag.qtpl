@@ -1,0 +1,16 @@
+{% import "snac/Database" %}
+
+{% func Tags(tags []Database.TagOverview) %}
+	{% for _, tag := range tags %}
+		<input type="radio" id="tag-{%s tag.Name %}" name="tag"/>
+        <div class="tag" data-tag="{%s tag.Name %}"><label for="tag-{%s tag.Name %}"><span>{%s tag.Name %} ({%d tag.Count %})<span>祈</span></span></label>
+            <ul style="min-height: calc({%d tag.Count %} * (1em + 8px));"></ul>
+        </div>
+	{% endfor %}
+{% endfunc %}
+
+{% func TagContent(snippets []Database.SnippetOverview) %}
+	{% for _, snippet := range snippets %}
+		<li data-id="{%s snippet.Id %}"><span>{%s snippet.Id %}</span>{%s snippet.Title %}</li>
+	{% endfor %}
+{% endfunc %}

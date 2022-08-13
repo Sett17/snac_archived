@@ -1,9 +1,12 @@
+//go:generate go get -u github.com/valyala/quicktemplate/qtc
+//go:generate C:\Users\sett\go\bin\qtc.exe
 package main
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"snac/Database"
+	"snac/templates"
 )
 
 func Render(r *gin.Engine) {
@@ -17,15 +20,15 @@ func Render(r *gin.Engine) {
 
 func renderTag(c *gin.Context) {
 	tag := c.Param("tag")
-	c.HTML(200, "tagContent.gohtml", Database.GetTag(tag))
+	c.String(200, templates.TagContent(Database.GetTag(tag)))
 }
 func renderTags(c *gin.Context) {
-	c.HTML(200, "tag.gohtml", Database.GetTags())
+	c.String(200, templates.Tags(Database.GetTags()))
 }
 
 func Api(r *gin.Engine) {
 	api := r.Group("/api")
-	api.Use(Auther())
+	//api.Use(Auther())
 
 	api.GET("/snippet/:id", getSnippet)
 	api.POST("/snippet/:id", updateSnippet)
