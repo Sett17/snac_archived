@@ -6,6 +6,23 @@ import (
 	"snac/Database"
 )
 
+func Render(r *gin.Engine) {
+	r.LoadHTMLGlob("templates/*.gohtml")
+	render := r.Group("/render")
+	//render.Use(Auther())
+
+	render.GET("/tag/:tag", renderTag)
+	render.GET("/tags", renderTags)
+}
+
+func renderTag(c *gin.Context) {
+	tag := c.Param("tag")
+	c.HTML(200, "tagContent.gohtml", Database.GetTag(tag))
+}
+func renderTags(c *gin.Context) {
+	c.HTML(200, "tag.gohtml", Database.GetTags())
+}
+
 func Api(r *gin.Engine) {
 	api := r.Group("/api")
 	api.Use(Auther())

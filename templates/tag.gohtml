@@ -1,0 +1,6 @@
+{{ range . }}
+    <input type="radio" id="tag-{{ .Name }}" name="tag">
+    <div class="tag" data-tag="{{ .Name }}"><label for="tag-{{ .Name }}"><span>{{ .Name }} ({{ .Count }})<span>祈</span></span></label>
+        <ul style="min-height: calc({{ .Count }} * (1em + 8px));"></ul>
+    </div>
+{{ end }}

@@ -14,7 +14,7 @@ func main() {
 	defer Database.Close()
 
 	r := gin.Default()
-	r.Use(CacheHeaders())
+	//r.Use(CacheHeaders())
 	r.Use(gzip.Gzip(gzip.DefaultCompression)) // seems to be the best for my use case (quick test in python)
 
 	r.Static("/assets", "./static")
@@ -23,6 +23,7 @@ func main() {
 	r.POST("/login", login)
 	r.GET("/authorized", isAuthorized)
 	Api(r)
+	Render(r)
 
 	r.Run("0.0.0.0:" + strconv.Itoa(Config.Cfg.Snac.Port))
 }
