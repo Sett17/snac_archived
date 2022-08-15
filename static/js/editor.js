@@ -1,7 +1,7 @@
-import * as Cursor from '/assets/js/cursor.js';
-import * as Backend from '/assets/js/backend.js'
-import * as Toast from '/assets/js/toast.js'
-import * as Misc from '/assets/js/misc.js'
+import * as Cursor from '/static/js/cursor.js';
+import * as Backend from '/static/js/backend.js'
+import * as Toast from '/static/js/toast.js'
+import * as Misc from '/static/js/misc.js'
 
 let titleInput = document.querySelector('#editor-wrapper div:first-of-type input')
 let descInput = document.querySelector('#editor-wrapper > div:nth-child(2) input')

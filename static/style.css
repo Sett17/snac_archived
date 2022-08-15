@@ -2,7 +2,7 @@
 @font-face {
   font-family: "FiraCode";
   font-display: fallback;
-  src: url("/assets/FiraCode.ttf");
+  src: url("/static/FiraCode.ttf");
 }
 :root {
   --green: #5BEC95;
