@@ -234,6 +234,9 @@
   padding: 0 5px;
   display: flex;
 }
+#editor-wrapper #tags-info div:last-of-type button {
+  margin: 0;
+}
 #editor-wrapper #tags-info div:last-of-type span {
   background: #1a2023;
   margin: 0 5px;

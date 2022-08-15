@@ -68,6 +68,14 @@ export function init() {
             }, 500)
         }
     }
+    document.querySelector("#tags-info > div:nth-child(2) > button").onclick = () => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(stringPerElement(codeField))
+            Toast.show('Copied to clipboard')
+        } else {
+            Toast.show('Writing to clipboard not supported')
+        }
+    }
 }
 
 export function newEmpty() {
