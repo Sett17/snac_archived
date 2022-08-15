@@ -1,3 +1,6 @@
+import * as Backend from '/static/js/backend.js'
+import * as Misc from '/static/js/misc.js'
+
 let inputEl = document.querySelector('#tag-search-input')
 let resultsEl = document.querySelector('#search > ul')
 let resetBtn = document.querySelector('#search > div > span')
@@ -15,7 +18,7 @@ export function init() {
             Backend.search(encodeURIComponent(value)).then(results => {
                 if (results?.length > 0) {
                     results.forEach(result => {
-                        frag.append(createSnippetLi(result))
+                        frag.append(Misc.createSnippetLi(result))
                     })
                     resultsEl.innerHTML = ''
                     inputEl.style.color = 'var(--green)'

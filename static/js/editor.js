@@ -1,4 +1,4 @@
-import * as Cursor from '/static/js/cursor.js';
+import * as Cursor from '/static/js/cursor.js'
 import * as Backend from '/static/js/backend.js'
 import * as Toast from '/static/js/toast.js'
 import * as Misc from '/static/js/misc.js'
