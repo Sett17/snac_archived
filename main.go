@@ -2,15 +2,15 @@ package main
 
 import (
 	"embed"
-	"github.com/gin-contrib/gzip"
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"net/http"
 	"snac/Config"
 	"snac/Database"
 	"strconv"
 )
 
-//go:embed static
+//go:embed static/*
 var static embed.FS
 
 func main() {
@@ -18,20 +18,23 @@ func main() {
 	Database.Connect()
 	defer Database.Close()
 
-	r := gin.Default()
-	r.Use(CacheHeaders())
-	r.Use(gzip.Gzip(gzip.DefaultCompression)) // seems to be the best for my use case (quick test in python)
+	e := echo.New()
 
-	//r.Static("/static", "./static")
-	r.GET("/static/*filepath", func(c *gin.Context) {
-		staticServer := http.FileServer(http.FS(static))
-		staticServer.ServeHTTP(c.Writer, c.Request)
-	})
-	r.StaticFileFS("/", "./static/", http.FS(static))
-	r.StaticFileFS("/login", "./static/login.html", http.FS(static))
-	r.POST("/login", login)
-	r.GET("/authorized", isAuthorized)
-	Api(r)
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{}))
+	e.Use(middleware.Recover())
+	e.Use(middleware.Gzip())
 
-	r.Run("0.0.0.0:" + strconv.Itoa(Config.Cfg.Snac.Port))
+	e.Use(CacheHeaders())
+
+	var contentHandler = echo.WrapHandler(http.FileServer(http.FS(static)))
+	var contentRewrite = middleware.Rewrite(map[string]string{"/*": "/static/$1"})
+	e.GET("/*", contentHandler, contentRewrite)
+
+	e.GET("/login", contentHandler, middleware.Rewrite(map[string]string{"/*": "/static/login.html"}))
+	e.POST("/login", login)
+	e.GET("/authorized", isAuthorized)
+
+	Api(e)
+
+	e.Logger.Fatal(e.Start(":" + strconv.Itoa(Config.Cfg.Snac.Port)))
 }

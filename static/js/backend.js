@@ -1,5 +1,5 @@
-import * as Toast from '/static/js/toast.js'
-import * as Misc from '/static/js/misc.js'
+import * as Toast from '/js/toast.js'
+import * as Misc from '/js/misc.js'
 
 export async function tags() {
     return await fetch('/api/tags').then(res => res.json())

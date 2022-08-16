@@ -1,6 +1,6 @@
-import * as Editor from '/static/js/editor.js'
-import * as Search from '/static/js/search.js'
-import * as Misc from '/static/js/misc.js'
+import * as Editor from '/js/editor.js'
+import * as Search from '/js/search.js'
+import * as Misc from '/js/misc.js'
 
 
 Misc.checker()

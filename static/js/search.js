@@ -1,5 +1,5 @@
-import * as Backend from '/static/js/backend.js'
-import * as Misc from '/static/js/misc.js'
+import * as Backend from '/js/backend.js'
+import * as Misc from '/js/misc.js'
 
 let inputEl = document.querySelector('#tag-search-input')
 let resultsEl = document.querySelector('#search > ul')

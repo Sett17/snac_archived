@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/labstack/echo/v4"
+	"net/http"
 	"snac/Config"
 )
 
-func login(c *gin.Context) {
-	password := c.PostForm("password")
+func login(c echo.Context) error {
+	password := c.FormValue("password")
 	if password == "" {
 		c.String(400, "Password is required")
-		return
+		return nil
 	}
 	if password != Config.Cfg.Snac.Password {
 		c.String(401, "Password is incorrect")
@@ -22,27 +23,34 @@ func login(c *gin.Context) {
 		if err != nil {
 			c.String(500, "Error generating token")
 		} else {
-			c.SetCookie("token", token, 60*60*24, "/", "", false, false)
+			c.SetCookie(&http.Cookie{
+				Name:   "token",
+				Value:  token,
+				MaxAge: 60 * 60 * 24,
+				Path:   "/",
+			})
 			c.String(200, "OK")
 		}
 	}
+	return echo.ErrInternalServerError
 }
 
-func isAuthorized(c *gin.Context) {
+func isAuthorized(c echo.Context) error {
 	cookie, err := c.Cookie("token")
 	if err != nil {
 		c.String(200, "false")
-		return
+		return nil
 	}
 	if checkJWT(cookie) {
 		c.String(200, "true")
 	} else {
 		c.String(200, "false")
 	}
+	return nil
 }
 
-func checkJWT(cookie string) bool {
-	token, err := jwt.Parse(cookie, func(token *jwt.Token) (interface{}, error) {
+func checkJWT(cookie *http.Cookie) bool {
+	token, err := jwt.Parse(cookie.Value, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
@@ -61,19 +69,20 @@ func checkJWT(cookie string) bool {
 	return false
 }
 
-func Auther() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		cookie, err := c.Cookie("token")
-		if err != nil {
-			c.String(401, "Unauthorized")
-			c.Abort()
-			return
-		}
-		if checkJWT(cookie) {
-			c.Next()
-		} else {
-			c.String(401, "Unauthorized")
-			c.Abort()
+func Auther() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			cookie, err := c.Cookie("token")
+			if err != nil {
+				c.String(401, "Unauthorized")
+				return echo.ErrUnauthorized
+			}
+			if checkJWT(cookie) {
+				return next(c)
+			} else {
+				c.String(401, "Unauthorized")
+				return echo.ErrUnauthorized
+			}
 		}
 	}
 }
