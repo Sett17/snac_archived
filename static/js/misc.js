@@ -1,6 +1,6 @@
-import * as Backend from '/static/js/backend.js'
-import * as Editor from '/static/js/editor.js'
-import * as Toast from '/static/js/toast.js'
+import * as Backend from '/js/backend.js'
+import * as Editor from '/js/editor.js'
+import * as Toast from '/js/toast.js'
 
 export async function checker() {
     if (!await Backend.isAuthorized()) window.location.href = '/login'
