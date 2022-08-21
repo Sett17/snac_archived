@@ -67,6 +67,32 @@ export function init() {
                 highlight()
             }, 500)
         }
+        let full = ""
+        switch (e.key) {
+            case '{':
+                full = '{}'
+                break
+            case '[':
+                full = '[]'
+                break
+            case '(':
+                full = '()'
+                break
+            case "'":
+                full = "''"
+                break
+            case '"':
+                full = '""'
+                break
+            case '`':
+                full = '``'
+                break
+        }
+        if (full.length > 0) {
+            document.execCommand('insertHTML', false, full)
+            Cursor.setCurrentCursorPosition(Cursor.getCurrentCursorPosition(codeField) - 1, codeField)
+            e.preventDefault()
+        }
     }
     document.querySelector("#tags-info > div:nth-child(2) > button").onclick = () => {
         if (navigator.clipboard) {
