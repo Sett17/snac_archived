@@ -108,6 +108,8 @@ $purple: #D7BEFA
         font-family: monospace
 
   #tags
+    flex-grow: 1.0
+
     input[type="radio"]
       display: none
 
@@ -147,6 +149,14 @@ $purple: #D7BEFA
         &:hover
           cursor: pointer
           background: $backgroundLight
+
+  & > div:last-child
+    height: 1.7em
+    font-size: 1.2em
+    text-align: right
+    padding-right: 1ch
+    span
+      cursor: pointer
 
 #editor-wrapper
   background: $backgroundLight
@@ -334,3 +344,34 @@ $purple: #D7BEFA
       cursor: pointer
       background: $purple
       color: $backgroundMid
+
+#helpBackground
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background: rgba(26, 32, 35, 0.7)
+  transition: opacity 70ms
+  opacity: 0
+  display: none
+  z-index: 1000
+  justify-content: center
+  align-items: center
+  cursor: pointer
+
+#help
+  display: flex
+  flex-direction: column
+  padding: 2ch
+  background: $backgroundLight
+  border-radius: 8px
+  width: 30vw
+  min-width: 330px
+  max-width: 420px
+
+  div
+    display: flex
+    justify-content: space-between
+    flex-direction: row
+    align-items: center

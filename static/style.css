@@ -100,6 +100,9 @@
 #sidebar #logo svg text {
   font-family: monospace;
 }
+#sidebar #tags {
+  flex-grow: 1;
+}
 #sidebar #tags input[type=radio] {
   display: none;
 }
@@ -138,6 +141,15 @@
 #sidebar #tags .tag > label > span:hover {
   cursor: pointer;
   background: #232A2F;
+}
+#sidebar > div:last-child {
+  height: 1.7em;
+  font-size: 1.2em;
+  text-align: right;
+  padding-right: 1ch;
+}
+#sidebar > div:last-child span {
+  cursor: pointer;
 }
 
 #editor-wrapper {
@@ -327,6 +339,39 @@
   cursor: pointer;
   background: #D7BEFA;
   color: #1f2529;
+}
+
+#helpBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(26, 32, 35, 0.7);
+  transition: opacity 70ms;
+  opacity: 0;
+  display: none;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#help {
+  display: flex;
+  flex-direction: column;
+  padding: 2ch;
+  background: #232A2F;
+  border-radius: 8px;
+  width: 30vw;
+  min-width: 330px;
+  max-width: 420px;
+}
+#help div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 }
 
 /*# sourceMappingURL=style.css.map */
