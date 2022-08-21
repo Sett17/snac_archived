@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"net/http"
+	"snac/Cache"
 	"snac/Config"
 	"snac/Database"
 	"strconv"
@@ -17,11 +18,15 @@ func main() {
 	Config.LoadConfig()
 	Database.Connect()
 	defer Database.Close()
+	Cache.Init()
 
 	e := echo.New()
+	e.HideBanner = true
+	e.Logger.Output()
 
-	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{}))
-	e.Use(middleware.Recover())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "[${time_rfc3339}] ${remote_ip}\t${method} ${status} ${latency_human}\t${host}${path}\n",
+	}))
 	e.Use(middleware.Gzip())
 
 	e.Use(CacheHeaders())

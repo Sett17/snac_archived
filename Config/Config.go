@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2" // in v3 I cant use strict from outside for some dumb reason
 	"os"
+	"time"
 )
 
 type Config struct {
@@ -14,6 +15,10 @@ type Config struct {
 		Password string `yaml:"password"`
 		SslMode  string `yaml:"sslmode"`
 	} `yaml:"database"`
+	Cache struct {
+		//Enabled    bool          `yaml:"enabled"`
+		Expiration time.Duration `yaml:"expiration"`
+	} `yaml:"cache"`
 	Snac struct {
 		Port     int    `yaml:"port"`
 		Secret   string `yaml:"secret"`
@@ -46,6 +51,9 @@ func LoadConfig() {
 	}
 	if Cfg.Database.SslMode == "" {
 		panic("Database.SslMode is empty")
+	}
+	if Cfg.Cache.Expiration == 0 {
+		panic("Cache.Expiration can't be 0")
 	}
 	if Cfg.Snac.Port == 0 {
 		panic("Snac.Port is empty")
